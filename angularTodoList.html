@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app> <!-- Initialize Angular App -->
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="http://underscorejs.org/underscore-min.js"></script>
+	
+	<title>AngularJS Test</title>
+	
+	<style>
+		.done-true {text-decoration: line-through;}
+	</style>
+	
+</head>
+<body>
+	<div ng-controller="TodoCtrl">
+		<h1>Total Todos: {{getTotalTodos()}}</h1>
+		<ul>
+			<li ng-repeat="todo in todos">
+			<input type="checkbox" ng-model="todo.done" />
+			<span class="done-{{todo.done}}">{{todo.text}}</span>
+			</li>
+		</ul>
+
+		<form>
+			<input type="text" ng-model="formTodoText" ng-model-instant />
+			<button ng-click="addTodo()">Add</button>
+		</form>
+		<button ng-click="clearCompleted()">Clear completed</button>
+	</div>
+</body>
+
+<script>
+	// Angular Todo app
+	function TodoCtrl($scope){
+		$scope.todos = [
+			{text:'Learn AgularJS', done: false},
+			{text: 'Build an app', done: false}
+		]
+		$scope.getTotalTodos = function(){
+			return $scope.todos.length;
+		};
+		
+		$scope.clearCompleted = function(){
+			$scope.todos = _.filter($scope.todos, function(todo){
+				return !todo.done;
+			})
+		};
+		
+		$scope.addTodo = function(){
+			$scope.todos.push({text:$scope.formTodoText, done: false});
+			$scope.formTodoText = '';
+		};
+	}
+</script>
+
+</html>
